@@ -11,17 +11,17 @@ impl Command {
         if let Some((key, value)) = s.split_once(' '){
             if let Ok(value) = value.parse::<i32>(){
                 match key {
-                    "forward" => return Ok(Command::Forward(value)),
-                    "down" => return Ok(Command::Down(value)),
-                    "up" => return Ok(Command::Down(-value)),
-                    _ => return Err(Error::new(ErrorKind::InvalidInput, "Command not valid"))
+                    "forward" => Ok(Command::Forward(value)),
+                    "down" => Ok(Command::Down(value)),
+                    "up" => Ok(Command::Down(-value)),
+                    _ => Err(Error::new(ErrorKind::InvalidInput, "Command not valid"))
                 }
             } else {
-                return Err(Error::new(ErrorKind::InvalidData, "Can't convert value string to num"));
+                Err(Error::new(ErrorKind::InvalidData, "Can't convert value string to num"))
             }
         } else {
-            return Err(Error::new(ErrorKind::InvalidData, "Can't split key value"));
-        };
+            Err(Error::new(ErrorKind::InvalidData, "Can't split key value"))
+        }
     }
 }
 
